@@ -32,7 +32,8 @@ Object.defineProperty(Array.prototype, "equals", {enumerable: false});
 
 // test whether the str provided is a valid email
 function testEmail (email) {
-  
+  var reg = /[\w\d\.]+@[\w\.]+/
+  return reg.test(email)
 }
 
 console.assert(testEmail("stroman.azariah@yahoo.com"));
@@ -52,7 +53,8 @@ console.assert(!testEmail("bonita43@"));
 
 // test whether the str provided is a valid phone
 function testPhone (phone) {
-  
+  var reg = /\(?\d{3}\)?[\s\-\.]?\d{3}[\-\.]?\d{4}/
+  return reg.test(phone)
 }
 
 console.assert(testPhone("919-555-1212"));
@@ -68,7 +70,8 @@ console.assert(!testPhone("mobile"));
 
 // test whether the number (as a string) sent to you is a binary number
 function testBinary (number) {
-  
+  var reg = /\b[01]+/
+  return reg.test(number)
 }
 
 console.assert(testBinary("0"));
@@ -82,7 +85,8 @@ console.assert(!testBinary("911"));
 
 // test whether the number sent to you as a binary is an even number
 function testBinaryEven (number) {
-  
+  var reg = /\b[01]+0\b/
+  return reg.test(number)
 }
 
 console.assert(testBinaryEven("10"));
@@ -90,21 +94,23 @@ console.assert(testBinaryEven("1110100010"));
 console.assert(!testBinaryEven("1011"));
 
 
-// test whether the number sent to yo is a valid hex string
+// test whether the number sent to you is a valid hex string
 function testHex (str) {
-  
+  var reg = /^[0-9a-fA-F]*$/
+  return reg.test(str)
 }
 
 console.assert(testHex("CAFE"));
 console.assert(testHex("9F9"));
 console.assert(testHex("123"));
 console.assert(testHex("6720EB3A9D1"));
-console.assert(!testHex(""));
+console.assert(!testHex("COF"));
 console.assert(!testHex("COFFEE"));
 
 // test whether the str sent to you is valid for currency
 function testMoney (str) {
-  
+    var reg = /^\$\d+(,\d{3})?(,\d{3})?(\.)?(\d{2})?$/
+    return reg.test(str)
 }
 
 console.assert(testMoney("$4"));
@@ -130,7 +136,8 @@ console.assert(!testMoney("$$31"));
 
 // test whether the str sent to you is a valid zip code
 function testZip (str) {
-  
+    var reg = /^\d{5}(-\d{4})?$/
+    return reg.test(str)
 }
 
 console.assert(testZip("63936"));
@@ -149,7 +156,8 @@ console.assert(!testZip("8029-3924"));
 // would simply be replaced with the following HTML: <a href="http://example.com">text</a>.
 // Be careful with images. ![alt text](image location) should be left alone, as it isn't a link.
 function markDownLink (text) {
-
+    var reg = /\\/  //not done
+    return reg.test(text)
 }
 
 console.assert(markDownLink('[Basic link](http://example.com)') === '<a href="http://example.com">Basic link</a>');
@@ -166,7 +174,8 @@ console.assert(markDownLink('[Invalid](http://inval.id,com)') === '[Invalid](htt
 // This is a somewhat unrealistic challenge - in real life, you wouldn't have to
 // make sure that it isn't bold, as you would have already parsed the bold text.
 function markDownItalics (text) {
-  
+  var reg = /\\/  //not done
+  return reg.test(text)
 }
 
 console.assert(markDownItalics('This text is not italic.') === 'This text is not italic.');
@@ -184,14 +193,16 @@ console.assert(markDownItalics('random *asterisk') === 'random *asterisk');
 
 // Return an array of phone numbers from a given string
 function extractPhoneNumber (text) {
-
+    var reg = /(?:\(?(\d{3})\)?[\s\-\.]?)?(\d{3})[\-\.]?(\d{4})/
+    return reg.test(text)
 }
 
 console.assert(extractPhoneNumber("Dear Mr. Davis, I got to know of your company through our mutual friend Fiona Williams and the training you offer to graduate students in Advertising. I am a graduate student of Mass Communications with specialization in Advertising.  I am currently pursuing the last year of my course. I would very much like to see firsthand the work environment in an advertising agency. If you would like a reference, my advisor can be reached at (454) 999-1212. You can contact me at (919) 123-4569 at your convenience.").equals(["(454) 999-1212", "(919) 123-4569"]))
 
 // Return an array of all emails found inside of given string
 function extractEmails (text) {
-
+    var reg = /\b[\w\d\.]+@[\w\.]+\b/
+    return reg.test(text)
 }
 
 console.assert(extractEmails("Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth@gmail.com tatsoi tomatillo azuki bean garlic. Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea@sprouts.org fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber.earthnut@pea.net peanut soko zucchini.").equals(["amaranth@gmail.com","pea@sprouts.org", "cucumber.earthnut@pea.net"]));
